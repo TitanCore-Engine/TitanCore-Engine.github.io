@@ -1,3 +1,4 @@
+<!-- Copiá desde acá hasta el final -->
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -5,215 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TITAN CORE | Sintonía Adiabática</title>
     <style>
-        :root { 
-            --accent: #00f2ff; --data: #00ff41; --text: #f0f0f0;
-            --panel: rgba(10, 12, 16, 0.98); --gold: #ffcc00; --danger: #ff3333;
-        }
-        body { 
-            background: radial-gradient(circle, #0a0c10 0%, #000 100%);
-            color: var(--text); font-family: 'Consolas', 'Courier New', monospace; 
-            margin: 0; display: flex; flex-direction: column; align-items: center; 
-            min-height: 100vh; padding: 20px; box-sizing: border-box; overflow-x: hidden;
-        }
-        
-        /* Capa de Escaneo Visual */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%; z-index: 9999; pointer-events: none;
-        }
-
-        .main-title { 
-            letter-spacing: 15px; text-align: center; margin: 20px 0; 
-            font-size: 2.5rem; color: #fff; text-transform: uppercase; font-weight: 900; 
-            text-shadow: 0 0 20px var(--accent); 
-        }
-
-        #gear { font-size: 80px; margin: 20px; transition: 0.5s; color: #333; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); }
-        .spinning { animation: gearRotate 1s linear infinite; color: var(--accent) !important; filter: drop-shadow(0 0 20px var(--accent)) !important; }
-        
-        @keyframes gearRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .dashboard { 
-            background: var(--panel); border: 1px solid #222; padding: 25px; 
-            width: 100%; max-width: 500px; border-radius: 4px; text-align: center; 
-            box-shadow: 0 0 30px rgba(0,0,0,1); border-top: 3px solid var(--accent);
-        }
-
-        #supply-count { font-size: 3.5rem; font-weight: bold; color: var(--text); letter-spacing: 5px; }
-
-        .temp-bar-bg { width: 100%; height: 20px; background: #000; border: 1px solid #333; margin: 20px 0; overflow: hidden; position: relative; }
-        #temp-fill { width: 0%; height: 100%; background: var(--accent); transition: width 0.1s; box-shadow: 0 0 15px var(--accent); }
-        #temp-percent { position: absolute; width: 100%; text-align: center; font-size: 0.75rem; line-height: 20px; color: #fff; font-weight: bold; z-index: 2; text-shadow: 1px 1px 2px #000; }
-
-        .ai-interface { width: 100%; max-width: 500px; margin-top: 20px; }
-        .chat-core { 
-            background: rgba(0, 0, 0, 0.95); border: 1px solid #222; padding: 15px; 
-            height: 160px; overflow-y: auto; border-radius: 4px; border-left: 4px solid var(--accent);
-            margin-bottom: 10px; font-size: 0.85rem; color: var(--data);
-        }
-
-        #ai-in { 
-            width: 100%; background: #050505; border: 1px solid #333; color: var(--accent); 
-            padding: 15px; outline: none; font-family: 'Consolas', monospace; box-sizing: border-box; 
-            border-radius: 4px; transition: 0.3s;
-        }
-        #ai-in:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
-
-        .core-installer { 
-            width: 100%; max-width: 500px; background: var(--panel); border: 1px solid #222; 
-            padding: 25px; border-radius: 4px; margin-top: 20px; border-bottom: 3px solid var(--gold);
-        }
-
-        .dl-btn { 
-            display: flex; align-items: center; justify-content: space-between; padding: 15px; 
-            border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.8rem; 
-            margin-bottom: 10px; border: 1px solid #333; transition: 0.3s; background: rgba(255,255,255,0.02);
-        }
-        .dl-windows { color: var(--gold); }
-        .dl-windows:hover { background: rgba(255, 204, 0, 0.1); border-color: var(--gold); }
-
-        .btn-ignite { 
-            background: var(--accent); color: #000; border: none; padding: 20px 80px; 
-            font-weight: 900; cursor: pointer; margin: 20px 0; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); 
-            letter-spacing: 3px; transition: 0.3s;
-        }
-        .btn-ignite:hover { transform: scale(1.05); filter: brightness(1.2); }
-
-        .pay-section { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
-        .pay-link { 
-            color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--gold); 
-            padding: 10px 15px; font-weight: bold; border-radius: 4px; text-transform: uppercase; transition: 0.3s; 
-        }
-        .pay-link:hover { background: var(--gold); color: #000; }
-
-        /* Estilo Manifesto (Papel antiguo mejorado) */
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .paper { background: #f4e4bc; color: #2c0000; padding: 40px; max-width: 500px; border-radius: 2px; box-shadow: 0 0 50px #000; font-family: 'Georgia', serif; position: relative; border: 10px solid #f4e4bc; outline: 1px solid #8b4513; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #8b0000; }
-
+        :root { --accent: #00f2ff; --gold: #ffcc00; --text: #f0f0f0; --panel: rgba(10, 12, 16, 0.96); }
+        body { background: #000; color: var(--text); font-family: monospace; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .dashboard { background: var(--panel); border: 1px solid #333; padding: 25px; border-radius: 8px; text-align: center; border-top: 3px solid var(--accent); width: 100%; max-width: 400px; }
+        #supply-count { font-size: 3rem; font-weight: bold; color: var(--accent); }
+        .btn-pay { background: var(--gold); color: #000; border: none; padding: 15px 30px; font-weight: 900; cursor: pointer; margin-top: 20px; border-radius: 4px; text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
-
-    <div id="overlay">
-        <div class="paper">
-            <span class="close-btn" onclick="closeManifesto()">✕</span>
-            <h2 style="text-align: center; border-bottom: 2px solid #8b0000; padding-bottom: 10px;">TITAN CORE - MANIFIESTO</h2>
-            <p><strong>De Consumidor a Sintonizador:</strong></p>
-            <p>Has detectado una frecuencia fuera del orden establecido. Este motor no solo procesa datos; sintoniza tu hardware con el flujo adiabático global.</p>
-            <p>La donación de "gasolina digital" permite que el núcleo permanezca encendido bajo las leyes de propiedad industrial 11.723.</p>
-            <p style="text-align: center; font-style: italic; margin-top: 30px;">"El orden es la soberanía del hogar."</p>
-        </div>
-    </div>
-
-    <h1 class="main-title">TITAN CORE</h1>
-    <div id="gear">⚙️</div>
-    
+    <h1>TITAN CORE V4</h1>
     <div class="dashboard">
-        <div style="font-size: 0.6rem; color: var(--gold); letter-spacing: 3px; margin-bottom: 10px;">NODOS ACTIVOS EN RED</div>
-        <div id="supply-count">001240</div>
-        <div class="temp-bar-bg">
-            <div id="temp-fill"></div>
-            <div id="temp-percent">POTENCIA: 0%</div>
-        </div>
-        <button class="btn-ignite" onclick="igniteEngine()">IGNICIÓN</button>
-    </div>
-    
-    <div class="ai-interface">
-        <div class="chat-core" id="chat-window">
-            > IAcore ONLINE.<br>
-            > Esperando comando de sintonización...
-        </div>
-        <input type="text" id="ai-in" placeholder="Ingresar comando de núcleo..." onkeydown="if(event.key==='Enter') aiProcess(this.value)">
-    </div>
-
-    <div class="core-installer">
-        <div style="font-size: 0.6rem; color: #888; letter-spacing: 2px; margin-bottom: 20px; text-align: center;">TERMINALES DE ACCESO (V4)</div>
-        <a href="#" class="dl-btn dl-windows"><span>WINDOWS X64 CORE</span> <span>EXE ▼</span></a>
-        <a href="#" class="dl-btn dl-windows" style="color: var(--data);"><span>ANDROID ARM64</span> <span>APK ▼</span></a>
+        <div style="font-size: 0.7rem; color: var(--gold);">SINTONIZADOR ID (HWID)</div>
+        <div id="supply-count">CARGANDO...</div>
         
-        <div class="pay-section">
-            <a href="https://link.mercadopago.com.ar" target="_blank" class="pay-link">Donar Gasolina (MP)</a>
-            <a href="https://paypal.me" target="_blank" class="pay-link">Global PayPal</a>
-        </div>
+        <!-- ESTE ES EL BOTÓN QUE DISPARA EL NEGOCIO -->
+        <button class="btn-pay" onclick="pagarSintonia()">DONAR GASOLINA ($1)</button>
     </div>
 
     <script>
-        const MOTOR_URL = "https://servidor-motor-1.onrender.com";
-        const msgBienvenida = "Bienvenido, sintonizador. El motor está listo para la ignición.";
+        // Simulador de HWID para la web (debe coincidir con el del motor)
+        const hwid_ficticio = "TC-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+        document.getElementById('supply-count').innerText = hwid_ficticio;
 
-        function closeManifesto() { 
-            document.getElementById('overlay').style.display = 'none'; 
-            aiLog(msgBienvenida);
-        }
-
-        function aiLog(msg) { 
-            const win = document.getElementById('chat-window'); 
-            const timestamp = new Date().toLocaleTimeString();
-            win.innerHTML += `<br><span style="color:#444">[${timestamp}]</span> > ${msg}`; 
-            win.scrollTop = win.scrollHeight; 
-        }
-        
-        async function aiProcess(val) {
-            if(!val) return;
-            aiLog(`<span style="color:#fff">COMANDO: ${val}</span>`);
-            document.getElementById('ai-in').value = '';
+        function pagarSintonia() {
+            const hwid = document.getElementById('supply-count').innerText;
+            const pref_id = "210131403490-5079a4da-b0c3-424a-9778-9e6659616892"; // Tu ID de $1
             
-            try {
-                // Simulación de procesamiento local para velocidad
-                setTimeout(() => {
-                    aiLog("Sintonizando parámetros con el núcleo central...");
-                }, 500);
-
-                const response = await fetch(`${MOTOR_URL}/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: val })
-                });
-                const data = await response.json();
-                aiLog(data.res || "Frecuencia estable.");
-            } catch(e) { 
-                aiLog("<span style="color:var(--danger)">ERROR: Enlace con Render inestable. Reintentando...</span>"); 
-            }
-        }
-
-        function igniteEngine() {
-            const gear = document.getElementById('gear');
-            const fill = document.getElementById('temp-fill');
-            const txt = document.getElementById('temp-percent');
+            // El link "mágico" que lleva el HWID al búnker [2.4]
+            const url_pago = `https://www.mercadopago.com.ar{pref_id}&external_reference=${hwid}`;
             
-            if(gear.classList.contains('spinning')) return;
-            
-            gear.classList.add('spinning');
-            aiLog("PROTOCOLO DE IGNICIÓN ACTIVADO. CALIBRANDO FASE...");
-            
-            let p = 0;
-            let timer = setInterval(() => {
-                p += Math.floor(Math.random() * 3) + 1;
-                if (p > 100) p = 100;
-                
-                fill.style.width = p + '%';
-                txt.innerText = 'POTENCIA: ' + p + '%';
-                
-                if(p >= 100) { 
-                    clearInterval(timer); 
-                    aiLog("NÚCLEO EN RESONANCIA ADIABÁTICA."); 
-                    startOscillation();
-                }
-            }, 50);
-        }
-
-        function startOscillation() {
-            const fill = document.getElementById('temp-fill');
-            const txt = document.getElementById('temp-percent');
-            setInterval(() => {
-                let osc = Math.floor(Math.random() * (99 - 92 + 1)) + 92;
-                fill.style.width = osc + '%';
-                txt.innerText = 'POTENCIA: ' + osc + '% (ÓPTIMA)';
-            }, 800);
+            console.log("Redirigiendo con HWID:", hwid);
+            window.open(url_pago, '_blank');
         }
     </script>
 </body>
 </html>
+
