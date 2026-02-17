@@ -3,148 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TITAN CORE | IAcore Cloud</title>
+    <title>TITAN CORE | V4</title>
     <style>
         :root { 
-            --accent: #00f2ff; --data: #00ff41; --text: #f0f0f0;
-            --panel: rgba(10, 12, 16, 0.96); --gold: #ffcc00; --danger: #ff3333;
+            --accent: #00f2ff; --gold: #ffcc00; --panel: rgba(10, 12, 16, 0.98); 
         }
         body { 
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://images.unsplash.com') no-repeat center center fixed;
-            background-size: cover; color: var(--text); font-family: 'Consolas', monospace; 
-            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 10px; box-sizing: border-box;
+            background: #050505; color: #f0f0f0; font-family: 'Consolas', monospace; 
+            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
         /* MANIFIESTO PAPIRO - FIX DE CIERRE */
         #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .paper { background-color: #e4d5b7; color: #4a0000; padding: 40px 25px 25px 25px; max-width: 480px; width: 100%; border-radius: 2px; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); font-family: 'Times New Roman', serif; line-height: 1.4; border: 1px solid #c2b280; max-height: 90vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer; color: #630000; z-index: 10001; }
+        .paper { background-color: #e4d5b7; color: #4a0000; padding: 40px 25px; max-width: 480px; width: 100%; border-radius: 2px; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); font-family: 'Times New Roman', serif; line-height: 1.4; border: 1px solid #c2b280; max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 32px; font-weight: bold; cursor: pointer; color: #630000; }
         
-        /* DASHBOARD Y CONTADOR */
-        .main-title { letter-spacing: 12px; text-align: center; margin: 40px 0 10px 0; font-size: 2.2rem; color: #fff; text-transform: uppercase; font-weight: 900; text-shadow: 0 5px 10px rgba(0,0,0,0.5); }
-        #gear { font-size: 70px; margin: 10px; color: #444; }
-        .spinning { animation: gearRotate 1s linear infinite; color: var(--accent) !important; text-shadow: 0 0 15px var(--accent); }
-        @keyframes gearRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* DASHBOARD Y DISEÑO */
+        .dashboard { background: var(--panel); border: 1px solid #333; padding: 25px; width: 100%; max-width: 400px; border-radius: 8px; text-align: center; border-top: 3px solid var(--accent); margin-top: 20px; }
+        #supply-count { font-size: 3.2rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; margin: 10px 0; }
+        #gear { font-size: 65px; margin: 15px; color: #222; transition: 0.5s; }
+        .spinning { animation: rotate 1s linear infinite; color: var(--accent) !important; text-shadow: 0 0 15px var(--accent); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .dashboard { background: var(--panel); border: 1px solid #333; padding: 20px; width: 95%; max-width: 450px; border-radius: 8px; margin-bottom: 15px; text-align: center; border-top: 2px solid var(--accent); }
-        .label-donors { font-size: 0.7rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-        #supply-count { font-size: 3rem; font-weight: bold; color: var(--accent); letter-spacing: 4px; }
-        
-        .temp-bar-bg { width: 100%; height: 12px; background: #000; border-radius: 4px; border: 1px solid #444; margin: 15px 0; overflow: hidden; position: relative; }
-        #temp-fill { width: 0%; height: 100%; background: var(--accent); transition: width 0.3s; }
-        #temp-percent { position: absolute; width: 100%; text-align: center; font-size: 0.65rem; line-height: 12px; color: #fff; font-weight: bold; top: 0; left: 0; }
+        /* BOTONES FUNCIONALES */
+        .btn { display: block; width: 100%; padding: 16px; margin: 12px 0; border: 1px solid var(--accent); background: rgba(0,242,255,0.05); color: var(--accent); font-weight: 900; text-decoration: none; border-radius: 4px; cursor: pointer; box-sizing: border-box; font-family: monospace; font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; }
+        .btn:hover { background: rgba(0,242,255,0.15); box-shadow: 0 0 15px rgba(0,242,255,0.2); }
+        .btn-gold { border-color: var(--gold); color: var(--gold); background: rgba(255, 204, 0, 0.05); }
 
-        /* BOTONES CLAVE */
-        .core-installer { width: 95%; max-width: 450px; background: #0a0c10; border: 1px solid #333; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
-        .dl-btn { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; border: 1px solid var(--gold); color: var(--gold); background: rgba(255, 204, 0, 0.05); cursor: pointer; transition: 0.3s; }
-        .dl-btn:hover { background: rgba(255, 204, 0, 0.1); }
-        .pay-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; border: 1px solid var(--accent); padding: 15px; font-weight: bold; display: block; margin: 10px 0; border-radius: 4px; text-transform: uppercase; background: rgba(0, 242, 255, 0.05); transition: 0.3s; }
-        .pay-link:hover { background: rgba(0, 242, 255, 0.15); }
-        .btn-ignite { background: var(--accent); color: #000; border: none; padding: 18px 60px; font-weight: 900; cursor: pointer; margin: 10px 0; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); letter-spacing: 2px; }
-
-        .chat-core { background: rgba(5, 5, 5, 0.98); border: 1px solid #333; padding: 15px; height: 120px; overflow-y: auto; border-radius: 4px; border-left: 3px solid var(--accent); width: 95%; max-width: 450px; box-sizing: border-box; text-align: left; margin-top: 10px; }
-        #chat-window { color: var(--accent); font-size: 0.85rem; font-weight: bold; }
+        .chat-core { background: rgba(5, 5, 5, 0.98); border: 1px solid #333; padding: 12px; height: 100px; overflow-y: auto; border-radius: 4px; border-left: 3px solid var(--accent); width: 100%; max-width: 400px; box-sizing: border-box; text-align: left; margin-top: 15px; color: var(--accent); font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <div id="flash-effect"></div>
-    
-    <!-- PAPIRO CON BOTÓN DE CIERRE CORREGIDO -->
+
+    <!-- PAPIRO INICIAL -->
     <div id="overlay">
         <div class="paper">
-            <span class="close-btn" onclick="closeManifesto()">✕</span>
-            <h2 style="text-align: center; border-bottom: 1px dashed #8b0000; padding-bottom: 10px;">TITAN CORE</h2>
+            <span class="close-btn" onclick="document.getElementById('overlay').style.display='none'">✕</span>
+            <h2 style="text-align: center; border-bottom: 1px dashed #8b0000; padding-bottom: 10px; margin-top: 0;">TITAN CORE</h2>
             <p><strong>De "Consumidor" a "Sintonizador"</strong></p>
-            <p>Mientras que los poderosos venden "Potencia", Titan Core ofrece "Sincronía".</p>
-            <p>Has detectado una frecuencia fuera del orden establecido. Este motor sintoniza tu hardware con el flujo adiabático global bajo la Ley 11.723.</p>
-            <p style="text-align: center; font-style: italic; margin-top: 20px;">"El orden es la soberanía del hogar."</p>
+            <p>Bienvenido al sistema de sintonía adiabática. La soberanía de su hogar es nuestra prioridad bajo la Ley 11.723.</p>
+            <p style="text-align: center; font-style: italic; margin-top: 20px;">"El orden es la eficiencia."</p>
         </div>
     </div>
 
-    <h1 class="main-title">TITAN CORE V4</h1>
     <div id="gear">⚙️</div>
-    
+
     <div class="dashboard">
-        <div class="label-donors">SINTONIZADORES REGISTRADOS</div>
+        <div style="font-size: 0.7rem; color: var(--gold); letter-spacing: 2px;">SINTONIZADORES ACTIVOS</div>
         <div id="supply-count">001240</div>
-        <div class="temp-bar-bg">
-            <div id="temp-fill"></div>
-            <div id="temp-percent">POTENCIA: 0%</div>
-        </div>
-        <button class="btn-ignite" onclick="igniteEngine()">IGNICIÓN</button>
-    </div>
-    
-    <div class="chat-core">
-        <div id="chat-window">> IAcore ONLINE.<br>> Esperando protocolo de sintonización...</div>
-    </div>
-
-    <div class="core-installer">
-        <div style="font-size: 0.7rem; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">Terminal de Acceso de Gasolina</div>
         
-        <!-- BOTÓN DE MERCADO PAGO -->
-        <a href="javascript:void(0)" class="pay-link" onclick="pagarSintonia()">1. DONAR GASOLINA ($1)</a>
+        <!-- DISPARADORES DE NEGOCIO -->
+        <button class="btn" style="background:var(--accent); color:#000" onclick="ignite()">IGNICIÓN DEL NÚCLEO</button>
+        
+        <a href="javascript:void(0)" class="btn btn-gold" onclick="pagarSintonia()">1. DONAR GASOLINA ($1)</a>
+        
+        <a href="javascript:void(0)" class="btn" onclick="descargarDirecto()">2. DESCARGAR NÚCLEO (.ZIP)</a>
+    </div>
 
-        <!-- BOTÓN DE DESCARGA -->
-        <a href="javascript:void(0)" class="dl-btn" onclick="descargarMotor()">
-            <span>2. DESCARGAR NÚCLEO</span> <span>▼ .ZIP</span>
-        </a>
+    <div class="chat-core" id="chat-win">
+        > IAcore ONLINE.<br>> Esperando protocolo de sintonización...
     </div>
 
     <script>
         const PREF_ID = "210131403490-5079a4da-b0c3-424a-9778-9e6659616892";
         const DL_LINK = "https://github.com";
         
-        // Generar HWID para la sesión (esto se usa para el external_reference)
+        // Generar HWID para el external_reference del pago [2.4]
         const hwid = "TC-" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-        // FUNCIÓN DE CIERRE DEL PAPIRO
-        function closeManifesto() { 
-            const overlay = document.getElementById('overlay');
-            overlay.style.display = 'none'; 
-            aiLog("Sintonizador detectado. El búnker está a la escucha.");
-        }
-        
         function aiLog(msg) { 
-            const win = document.getElementById('chat-window'); 
-            win.innerHTML += `<br>> ${msg}`; 
-            win.scrollTop = win.scrollHeight; 
+            const win = document.getElementById('chat-win');
+            win.innerHTML += `<br>> ${msg}`;
+            win.scrollTop = win.scrollHeight;
         }
 
-        // DISPARADOR DE NEGOCIO (MERCADO PAGO)
+        function ignite() { 
+            document.getElementById('gear').classList.add('spinning');
+            aiLog("PROTOCOLO DE IGNICIÓN... POTENCIA 98%");
+        }
+
+        // FUNCIÓN DE PAGO SINTONIZADO [2.4, 2.6]
         function pagarSintonia() {
             const url = `https://www.mercadopago.com.ar{PREF_ID}&external_reference=${hwid}`;
             aiLog("REDIRECCIONANDO AL PUENTE DE PEAJE...");
             window.open(url, '_blank');
         }
 
-        // DESCARGA DIRECTA (GITHUB)
-        function descargarMotor() {
-            const acepta = confirm("¿Acepta los Términos de Uso y el Manifiesto Legal (Ley 11.723) de TitanCore V4?");
-            if (acepta) {
-                aiLog("INICIANDO DESCARGA DEL NÚCLEO ADIABÁTICO...");
-                window.location.href = DL_LINK;
-            } else {
-                aiLog("DESCARGA CANCELADA POR EL USUARIO.");
+        // FUNCIÓN DE DESCARGA DIRECTA (SIN SALIR DE LA WEB) [1.2, 1.5]
+        function descargarDirecto() {
+            if(confirm("¿Acepta los términos legales y el manifiesto de TitanCore V4?")) {
+                aiLog("DESCARGA DIRECTA INICIADA...");
+                const a = document.createElement('a');
+                a.href = DL_LINK;
+                a.download = "TitanCore_V4.zip";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
-        }
-
-        // ANIMACIÓN DE IGNICIÓN
-        function igniteEngine() {
-            const gear = document.getElementById('gear');
-            if(gear.classList.contains('spinning')) return;
-            gear.classList.add('spinning');
-            aiLog("PROTOCOLO DE IGNICIÓN ACTIVADO...");
-            let p = 0;
-            let t = setInterval(() => {
-                p++;
-                document.getElementById('temp-fill').style.width = p + '%';
-                document.getElementById('temp-percent').innerText = 'POTENCIA: ' + p + '%';
-                if(p >= 98) { 
-                    clearInterval(t); 
-                    aiLog("NÚCLEO EN RESONANCIA ÓPTIMA."); 
-                }
-            }, 30);
         }
     </script>
 </body>
